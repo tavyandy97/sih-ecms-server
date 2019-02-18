@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const {sequelize} = require('../db/connect');
 const User = sequelize.define('user', {
   id: {
-    type: Sequelize.BIGINT(11),
+    type: Sequelize.BIGINT,
     primaryKey: true
   },
   name: {
@@ -28,7 +28,7 @@ const User = sequelize.define('user', {
   },
   isStudent: {
     type: Sequelize.BOOLEAN,
-    defaultValue: false
+    defaultValue: false,
   },
   phone: {
     type: Sequelize.BIGINT(10),
@@ -41,7 +41,7 @@ const User = sequelize.define('user', {
     validate: {
       isSex(value){
         newVal = value.toUpperCase();
-        if( !(value === 'M' || value === 'O' || value === 'F'))
+        if( !(newVal === 'M' || newVal === 'O' || newVal === 'F'))
           throw new Error(`Only \'M\', \'F\', \'O\' values are allowed!`)
       }
     },
@@ -52,14 +52,22 @@ const User = sequelize.define('user', {
   role: {
     type: Sequelize.STRING(1),
     validate: {
-      isSex(value){
+      isRole(value){
         newVal = value.toUpperCase();
-        if( !(value == 'S' || value === 'F' || value === 'C' || value === 'P' || value === 'O' || value === 'A'))
+        if( !(newVal == 'S' || newVal === 'F' || newVal === 'C' || newVal === 'P' || newVal === 'O' || newVal === 'A'))
           throw new Error(`Only \'S\', \'F\', \'C\', \'P\', \'O\', \'A\' values are allowed!`)
       }
     },
     set(val) {
       this.setDataValue('role', val.toUpperCase());
+    }
+  }
+}, {
+  validate: {
+    isStudentOnly(){
+      if(this.isStudent && this.role !== 'S'){
+        throw new Error('The user is not an end user, hence cannot have status of student!');
+      }
     }
   }
 });
