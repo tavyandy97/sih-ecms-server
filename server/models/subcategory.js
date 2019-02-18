@@ -14,7 +14,7 @@ const SubCategory = sequelize.define('subcategory', {
     }
   },
   categoryid: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.BIGINT,
     references: {
       model: Category,
       key: 'id',
