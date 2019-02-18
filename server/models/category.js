@@ -9,9 +9,7 @@ const Category = sequelize.define('category', {
   },
   category: {
     type: Sequelize.STRING(50),
-    validate: {
-      notNull: true
-    }
+    allowNull: false
   }
 });
 

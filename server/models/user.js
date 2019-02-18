@@ -8,21 +8,19 @@ const User = sequelize.define('user', {
   },
   name: {
     type: Sequelize.STRING(30),
-    validate: {
-      notNull: true
-    }
+    allowNull:false,
   },
   dob: {
     type: Sequelize.DATEONLY,
+    allowNull:false,
     validate: {
-      notNull: true,
       isDate: true
     }
   },
   email: {
     type: Sequelize.STRING,
+    allowNull:false,
     validate: {
-      notNull: true,
       isEmail: true
     }
   },
@@ -32,12 +30,11 @@ const User = sequelize.define('user', {
   },
   phone: {
     type: Sequelize.BIGINT(10),
-    validate: {
-      notNull: true
-    }
+    allowNull:false
   },
   sex: {
     type: Sequelize.STRING(1),
+    allowNull:false,
     validate: {
       isSex(value){
         newVal = value.toUpperCase();
@@ -51,6 +48,7 @@ const User = sequelize.define('user', {
   },
   role: {
     type: Sequelize.STRING(1),
+    allowNull:false,
     validate: {
       isRole(value){
         newVal = value.toUpperCase();

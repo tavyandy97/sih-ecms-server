@@ -9,9 +9,7 @@ const GrievanceLog = sequelize.define('grievancelog', {
   },
   log: {
     type: Sequelize.STRING(2000),
-    validate: {
-      notNull: true
-    }
+    allowNull:false
   },
   grievanceid: {
     type: Sequelize.BIGINT,

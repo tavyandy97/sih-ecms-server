@@ -9,9 +9,7 @@ const SubCategory = sequelize.define('subcategory', {
   },
   subcategory: {
     type: Sequelize.STRING(50),
-    validate: {
-      notNull: true
-    }
+    allowNull:false
   },
   categoryid: {
     type: Sequelize.BIGINT,

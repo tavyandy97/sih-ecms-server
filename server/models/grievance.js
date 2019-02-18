@@ -9,15 +9,11 @@ const Grievance = sequelize.define('grievance', {
   },
   subject: {
     type: Sequelize.STRING(2000),
-    validate: {
-      notNull: true
-    }
+    allowNull:false
   },
   descriiption: {
     type: Sequelize.STRING(2000),
-    validate: {
-      notNull: true
-    }
+    allowNull:false
   },
   hasFieldAnalysis: {
     type: Sequelize.BOOLEAN,
@@ -38,27 +34,19 @@ const Grievance = sequelize.define('grievance', {
   },
   time1: {
     type: Sequelize.STRING(10),
-    validate: {
-      notNull: true
-    }
+    allowNull:false
   },
   time2: {
     type: Sequelize.STRING(10),
-    validate: {
-      notNull: true
-    }
+    allowNull:false
   },
   time3: {
     type: Sequelize.STRING(10),
-    validate: {
-      notNull: true
-    }
+    allowNull:false
   },
   timeOF: {
     type: Sequelize.STRING(10),
-    validate: {
-      notNull: true
-    }
+    allowNull:false
   },
   subcategoryid: {
     type: Sequelize.BIGINT,
