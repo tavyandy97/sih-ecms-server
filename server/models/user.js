@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const bcrypt = require('bcryptjs');
 
 const {sequelize} = require('../db/connect');
 const User = sequelize.define('user', {
@@ -9,6 +10,15 @@ const User = sequelize.define('user', {
   name: {
     type: Sequelize.STRING(30),
     allowNull:false,
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull:false,
+    set(val) {
+      var salt = bcrypt.genSaltSync(10);
+      var hash = bcrypt.hashSync(val, salt);
+      this.setDataValue('password', hash);
+    }
   },
   dob: {
     type: Sequelize.DATEONLY,
