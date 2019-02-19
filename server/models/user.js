@@ -1,5 +1,9 @@
 const Sequelize = require('sequelize');
 const bcrypt = require('bcryptjs');
+const _ = require('lodash');
+const jwt = require('jsonwebtoken');
+
+require('dotenv').config();
 
 const {sequelize} = require('../db/connect');
 const User = sequelize.define('user', {
@@ -79,6 +83,35 @@ const User = sequelize.define('user', {
     }
   }
 });
+
+User.prototype.generateAuthToken = function () {  
+  var user = this;
+  var access = 'auth';
+  var token = jwt.sign({id: user.id , access} , process.env.SECRET).toString();
+  return user.save()
+    .then(() => {
+      return token;
+    });
+}
+
+User.findByCredentials = function(id , password){
+  var User = this;
+  return User.findOne( { where: {id} } ).then(user => {
+    if(!user){
+      return Promise.reject();
+    }
+    return new Promise((resolve , reject) => {
+      bcrypt.compare(password , user.password , (err , res) => {
+        if(res){
+          resolve(user);
+        }
+        else{
+          reject(err);
+        }
+      });
+    });
+  });
+}
 
 module.exports = {
   User
