@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 
-const {sequelize} = require('../db/connect');
-const Grievance = sequelize.define('grievance', {
+const { sequelize } = require("../db/connect");
+const Grievance = sequelize.define("grievance", {
   id: {
     type: Sequelize.BIGINT,
     primaryKey: true,
@@ -9,11 +9,11 @@ const Grievance = sequelize.define('grievance', {
   },
   subject: {
     type: Sequelize.STRING(2000),
-    allowNull:false
+    allowNull: false
   },
   descriiption: {
     type: Sequelize.STRING(2000),
-    allowNull:false
+    allowNull: false
   },
   hasFieldAnalysis: {
     type: Sequelize.BOOLEAN,
@@ -22,44 +22,48 @@ const Grievance = sequelize.define('grievance', {
   status: {
     type: Sequelize.STRING(1),
     validate: {
-      isRole(value){
+      isRole(value) {
         newVal = value.toUpperCase();
-        if( !(newVal == 'O' || newVal === 'P' || newVal === 'F' || newVal === 'C'))
-          throw new Error(`Only \'O\', \'P\', \'F\', \'C\' values are allowed!`)
+        if (
+          !(newVal == "O" || newVal === "P" || newVal === "F" || newVal === "C")
+        )
+          throw new Error(
+            `Only \'O\', \'P\', \'F\', \'C\' values are allowed!`
+          );
       }
     },
     set(val) {
-      this.setDataValue('status', val.toUpperCase());
+      this.setDataValue("status", val.toUpperCase());
     }
   },
   time1: {
     type: Sequelize.STRING(10),
-    allowNull:false
+    allowNull: false
   },
   time2: {
     type: Sequelize.STRING(10),
-    allowNull:false
+    allowNull: false
   },
   time3: {
     type: Sequelize.STRING(10),
-    allowNull:false
+    allowNull: false
   },
   timeOF: {
     type: Sequelize.STRING(10),
-    allowNull:false
+    allowNull: false
   },
   subcategoryid: {
     type: Sequelize.BIGINT,
     references: {
       model: SubCategory,
-      key: 'id',
+      key: "id"
     }
   },
   userid: {
     type: Sequelize.BIGINT,
     references: {
       model: User,
-      key: 'id',
+      key: "id"
     }
   }
 });

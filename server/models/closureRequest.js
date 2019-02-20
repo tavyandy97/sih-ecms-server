@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 
-const {sequelize} = require('../db/connect');
-const ClosureRequest = sequelize.define('closurerequest', {
+const { sequelize } = require("../db/connect");
+const ClosureRequest = sequelize.define("closurerequest", {
   id: {
     type: Sequelize.BIGINT,
     primaryKey: true,
@@ -9,26 +9,24 @@ const ClosureRequest = sequelize.define('closurerequest', {
   },
   status: {
     type: Sequelize.INTEGER,
-    validate: { min: -1 , max: 1},
+    validate: { min: -1, max: 1 },
     defaultValue: 0
   },
   userid: {
     type: Sequelize.BIGINT,
     references: {
       model: User,
-      key: 'id',
+      key: "id"
     }
   },
   grievanceid: {
     type: Sequelize.BIGINT,
     references: {
       model: Grievance,
-      key: 'id',
+      key: "id"
     }
   }
 });
-
-
 
 module.exports = {
   ClosureRequest

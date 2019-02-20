@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 
-const {sequelize} = require('../db/connect');
-const OnFieldMapping = sequelize.define('onfieldmapping', {
+const { sequelize } = require("../db/connect");
+const OnFieldMapping = sequelize.define("onfieldmapping", {
   id: {
     type: Sequelize.BIGINT,
     primaryKey: true,
@@ -11,19 +11,17 @@ const OnFieldMapping = sequelize.define('onfieldmapping', {
     type: Sequelize.BIGINT,
     references: {
       model: Category,
-      key: 'id',
+      key: "id"
     }
   },
   userid: {
     type: Sequelize.BIGINT,
     references: {
       model: User,
-      key: 'id',
+      key: "id"
     }
   }
 });
-
-
 
 module.exports = {
   OnFieldMapping
