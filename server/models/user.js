@@ -104,7 +104,11 @@ const User = sequelize.define(
 User.prototype.generateAuthToken = function() {
   var user = this;
   var access = "auth";
-  var token = jwt.sign({ id: user.id, access }, process.env.SECRET).toString();
+  var token = jwt
+    .sign({ id: user.id, access, role: user.role }, process.env.SECRET, {
+      expiresIn: 1000 * 60 * 60 * 24
+    })
+    .toString();
   return user.save().then(() => {
     return token;
   });
@@ -113,7 +117,7 @@ User.prototype.generateAuthToken = function() {
 User.findByCredentials = function(id, password) {
   var User = this;
   return User.findOne({ where: { id } }).then(user => {
-    if (!user) {
+    if (!user || _.isUndefined(user)) {
       return Promise.reject();
     }
     return new Promise((resolve, reject) => {

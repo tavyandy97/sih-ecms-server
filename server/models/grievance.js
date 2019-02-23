@@ -11,24 +11,20 @@ const Grievance = sequelize.define("grievance", {
     type: Sequelize.STRING(2000),
     allowNull: false
   },
-  descriiption: {
-    type: Sequelize.STRING(2000),
-    allowNull: false
-  },
-  hasFieldAnalysis: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false
-  },
-  status: {
+  closedBy: {
     type: Sequelize.STRING(1),
+    allowNull: true,
     validate: {
       isRole(value) {
         newVal = value.toUpperCase();
         if (
-          !(newVal == "O" || newVal === "P" || newVal === "F" || newVal === "C")
+          !(
+            newVal === "P" ||
+            newVal === "C" ||
+          )
         )
           throw new Error(
-            `Only \'O\', \'P\', \'F\', \'C\' values are allowed!`
+            `Only \'P\', \'C\' values are allowed!`
           );
       }
     },
@@ -36,20 +32,47 @@ const Grievance = sequelize.define("grievance", {
       this.setDataValue("status", val.toUpperCase());
     }
   },
+  status: {
+    type: Sequelize.STRING(1),
+    validate: {
+      isRole(value) {
+        newVal = value.toUpperCase();
+        if (
+          !(
+            newVal == "O" ||
+            newVal === "P" ||
+            newVal === "F" ||
+            newVal === "C" ||
+            newVal === "A"
+          )
+        )
+          throw new Error(
+            `Only \'O\', \'P\', \'F\', \'C\', \'A\' values are allowed!`
+          );
+      }
+    },
+    set(val) {
+      this.setDataValue("status", val.toUpperCase());
+    }
+  },
+  timeTillEscalation: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
   time1: {
-    type: Sequelize.STRING(10),
+    type: Sequelize.BIGINT,
     allowNull: false
   },
   time2: {
-    type: Sequelize.STRING(10),
+    type: Sequelize.BIGINT,
     allowNull: false
   },
   time3: {
-    type: Sequelize.STRING(10),
+    type: Sequelize.BIGINT,
     allowNull: false
   },
   timeOF: {
-    type: Sequelize.STRING(10),
+    type: Sequelize.BIGINT,
     allowNull: false
   },
   subcategoryid: {

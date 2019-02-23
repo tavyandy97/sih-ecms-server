@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 
 const { sequelize } = require("../db/connect");
+
 const OnFieldMapping = sequelize.define("onfieldmapping", {
   id: {
     type: Sequelize.BIGINT,
