@@ -15,6 +15,10 @@ const Grievance = sequelize.define("grievance", {
     type: Sequelize.STRING(2000),
     allowNull: false
   },
+  isClosed: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
   closedBy: {
     type: Sequelize.STRING(1),
     allowNull: true,

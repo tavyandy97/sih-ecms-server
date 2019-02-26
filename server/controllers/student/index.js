@@ -21,6 +21,25 @@ const verifyRole = (req, res, next) => {
 
 router.use(verifyRole);
 
+router.get("/grievances/:status", (req, res) => {
+  var isClosed = req.params.status;
+  if (!(isClosed === "false" || isClosed === "true")) {
+    return res.status(404).send();
+  }
+  isClosed = isClosed === "false" ? 0 : 1;
+  var dateSortFactor = isClosed === "false" ? "createdAt" : "updatedAt";
+  Grievance.findAll({
+    where: { userid: req.user.id, isClosed },
+    order: [[dateSortFactor, "DESC"]]
+  })
+    .then(grievances => {
+      res.send(grievances);
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
+}); //GET retrieve grievances for students '/student/grievances/:status'
+
 router.post("/grievance", (req, res) => {
   var timeMLFetch = {
     time1: 1,
@@ -68,6 +87,36 @@ router.get("/grievance/:id", (req, res) => {
       res.status(400).send();
     });
 }); //GET retrieve grievance for students '/student/grievance/:id'
+
+router.patch("/grievance/:id", (req, res) => {
+  const body = _.pick(req.body, ["isClosed"]);
+  var id = req.params.id;
+  if (_.isInteger(id)) {
+    return res.status(404).send({
+      errorMessage: "id should be an integer"
+    });
+  }
+  if (!_.isBoolean(body.isClosed)) {
+    return res.status(400).send({
+      errorMessage:
+        "DataTypeError - Please check the datatypes of the patching attributes"
+    });
+  }
+  Grievance.update(
+    {
+      isClosed: body.isClosed
+    },
+    { where: { grievanceid: id, userid: req.user.id } }
+  )
+    .then(grievance => {
+      res.send({ success: true });
+    })
+    .catch(err => {
+      res.status(400).send({
+        errorMessage: err
+      });
+    });
+});
 
 router.post("/grievancelog", (req, res) => {
   GrievanceLog.sync()
