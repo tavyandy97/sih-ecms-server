@@ -1,6 +1,6 @@
 const express = require("express");
 const _ = require("lodash");
-const { User } = require("../../models/user");
+const User = require("../../models/user");
 const router = express.Router();
 
 router.post("/users/login", (req, res) => {
@@ -12,7 +12,7 @@ router.post("/users/login", (req, res) => {
       });
     })
     .catch(err => {
-      res.status(400).send();
+      res.status(400).send(err);
     });
 }); //POST login users '/users/login'
 

@@ -5,8 +5,8 @@ Sequelize = db.Sequelize;
 const Category = require("./category");
 const User = require("./user");
 
-const OnFieldMapping = sequelize.define("onfieldmapping", {
-  onfieldmappingid: {
+const CommitteeMemberMapping = sequelize.define("committeemembermapping", {
+  committeemembermappingid: {
     type: Sequelize.BIGINT,
     primaryKey: true,
     autoIncrement: true
@@ -28,5 +28,5 @@ const OnFieldMapping = sequelize.define("onfieldmapping", {
 });
 
 module.exports = {
-  OnFieldMapping
+  CommitteeMemberMapping
 };

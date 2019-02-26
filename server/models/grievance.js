@@ -1,8 +1,12 @@
-const Sequelize = require("sequelize");
+const { db } = require("../db/connect");
+sequelize = db.sequelize;
+Sequelize = db.Sequelize;
 
-const { sequelize } = require("../db/connect");
+const SubCategory = require("./subcategory");
+const User = require("./user");
+
 const Grievance = sequelize.define("grievance", {
-  id: {
+  grievanceid: {
     type: Sequelize.BIGINT,
     primaryKey: true,
     autoIncrement: true
@@ -17,15 +21,8 @@ const Grievance = sequelize.define("grievance", {
     validate: {
       isRole(value) {
         newVal = value.toUpperCase();
-        if (
-          !(
-            newVal === "P" ||
-            newVal === "C" ||
-          )
-        )
-          throw new Error(
-            `Only \'P\', \'C\' values are allowed!`
-          );
+        if (!(newVal === "P" || newVal === "C"))
+          throw new Error(`Only \'P\', \'C\' values are allowed!`);
       }
     },
     set(val) {
@@ -79,18 +76,16 @@ const Grievance = sequelize.define("grievance", {
     type: Sequelize.BIGINT,
     references: {
       model: SubCategory,
-      key: "id"
+      key: "subcategoryid"
     }
   },
   userid: {
     type: Sequelize.BIGINT,
     references: {
       model: User,
-      key: "id"
+      key: "userid"
     }
   }
 });
 
-module.exports = {
-  Grievance
-};
+module.exports = Grievance;

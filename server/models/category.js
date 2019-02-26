@@ -1,8 +1,9 @@
-const Sequelize = require("sequelize");
+const { db } = require("../db/connect");
+sequelize = db.sequelize;
+Sequelize = db.Sequelize;
 
-const { sequelize } = require("../db/connect");
 const Category = sequelize.define("category", {
-  id: {
+  categoryid: {
     type: Sequelize.BIGINT,
     primaryKey: true,
     autoIncrement: true
@@ -13,6 +14,4 @@ const Category = sequelize.define("category", {
   }
 });
 
-module.exports = {
-  Category
-};
+module.exports = Category;

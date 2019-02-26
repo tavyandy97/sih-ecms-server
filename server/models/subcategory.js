@@ -1,8 +1,11 @@
-const Sequelize = require("sequelize");
+const { db } = require("../db/connect");
+sequelize = db.sequelize;
+Sequelize = db.Sequelize;
 
-const { sequelize } = require("../db/connect");
+const Category = require("./category");
+
 const SubCategory = sequelize.define("subcategory", {
-  id: {
+  subcategoryid: {
     type: Sequelize.BIGINT,
     primaryKey: true,
     autoIncrement: true
@@ -15,11 +18,9 @@ const SubCategory = sequelize.define("subcategory", {
     type: Sequelize.BIGINT,
     references: {
       model: Category,
-      key: "id"
+      key: "categoryid"
     }
   }
 });
 
-module.exports = {
-  SubCategory
-};
+module.exports = SubCategory;

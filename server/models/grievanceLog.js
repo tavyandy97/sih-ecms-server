@@ -1,8 +1,12 @@
-const Sequelize = require("sequelize");
+const { db } = require("../db/connect");
+sequelize = db.sequelize;
+Sequelize = db.Sequelize;
 
-const { sequelize } = require("../db/connect");
+const Grievance = require("./grievance");
+const User = require("./user");
+
 const GrievanceLog = sequelize.define("grievancelog", {
-  id: {
+  grievancelogid: {
     type: Sequelize.BIGINT,
     primaryKey: true,
     autoIncrement: true
@@ -15,18 +19,16 @@ const GrievanceLog = sequelize.define("grievancelog", {
     type: Sequelize.BIGINT,
     references: {
       model: Grievance,
-      key: "id"
+      key: "grievanceid"
     }
   },
   userid: {
     type: Sequelize.BIGINT,
     references: {
       model: User,
-      key: "id"
+      key: "userid"
     }
   }
 });
 
-module.exports = {
-  GrievanceLog
-};
+module.exports = GrievanceLog;
