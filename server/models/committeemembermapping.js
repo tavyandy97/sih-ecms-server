@@ -13,6 +13,7 @@ const CommitteeMemberMapping = sequelize.define("committeemembermapping", {
   },
   categoryid: {
     type: Sequelize.BIGINT,
+    unique: true,
     references: {
       model: Category,
       key: "categoryid"
@@ -20,6 +21,7 @@ const CommitteeMemberMapping = sequelize.define("committeemembermapping", {
   },
   userid: {
     type: Sequelize.BIGINT,
+    unique: true,
     references: {
       model: User,
       key: "userid"
@@ -27,6 +29,4 @@ const CommitteeMemberMapping = sequelize.define("committeemembermapping", {
   }
 });
 
-module.exports = {
-  CommitteeMemberMapping
-};
+module.exports = CommitteeMemberMapping;

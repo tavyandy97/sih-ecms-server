@@ -89,34 +89,53 @@ router.get("/grievance/:id", (req, res) => {
 }); //GET retrieve grievance for students '/student/grievance/:id'
 
 router.patch("/grievance/:id", (req, res) => {
-  const body = _.pick(req.body, ["isClosed"]);
   var id = req.params.id;
   if (_.isInteger(id)) {
     return res.status(404).send({
       errorMessage: "id should be an integer"
     });
   }
-  if (!_.isBoolean(body.isClosed)) {
-    return res.status(400).send({
-      errorMessage:
-        "DataTypeError - Please check the datatypes of the patching attributes"
-    });
-  }
-  Grievance.update(
-    {
-      isClosed: body.isClosed
-    },
-    { where: { grievanceid: id, userid: req.user.id } }
+
+  var body = {};
+  if (
+    !(_.isBoolean(req.body.isClosed) || req.body.isClosed === undefined) &&
+    ((_.isString(req.body.status) && length(req.body.status) === 1) ||
+      req.body.status === undefined)
   )
+    res.send(400);
+  if (req.body.isClosed) body.isClosed = true;
+  if (req.body.status === "A") {
+    body.isClosed = false;
+    body.status = "A";
+    body.closedBy = null;
+  }
+  Grievance.findOne({ where: { grievanceid: id, userid: req.user.id } })
     .then(grievance => {
-      res.send({ success: true });
+      if (!grievance) {
+        return res.status(404).send();
+      }
+      if (
+        body.status === "A" &&
+        !(grievance.closedBy === "P" || grievance.closedBy === "C")
+      )
+        return res.status(400).send();
+      console.log(body);
+      Grievance.update(body, {
+        where: { grievanceid: id, userid: req.user.id }
+      })
+        .then(grievance => {
+          res.send(grievance);
+        })
+        .catch(err => {
+          res.status(400).send({
+            errorMessage: err
+          });
+        });
     })
     .catch(err => {
-      res.status(400).send({
-        errorMessage: err
-      });
+      res.status(400).send();
     });
-});
+}); //PATCH update grievance for students '/student/grievance/:id'
 
 router.post("/grievancelog", (req, res) => {
   GrievanceLog.sync()
@@ -148,9 +167,8 @@ router.get("/grievancelog/:id", (req, res) => {
         return res.status(404).send();
       }
       GrievanceLog.findAll({
-        where: {
-          grievanceid: grievance.grievanceid
-        }
+        where: { grievanceid: grievance.grievanceid },
+        order: [["createdAt", "DESC"]]
       })
         .then(log => {
           res.send(log);

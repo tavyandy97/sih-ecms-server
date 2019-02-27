@@ -19,8 +19,4 @@ const verifyRole = (req, res, next) => {
 
 router.use(verifyRole);
 
-router.get("/test", (req, res) => {
-  res.send("hello");
-});
-
 module.exports = router;

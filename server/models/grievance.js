@@ -25,8 +25,8 @@ const Grievance = sequelize.define("grievance", {
     validate: {
       isRole(value) {
         newVal = value.toUpperCase();
-        if (!(newVal === "P" || newVal === "C"))
-          throw new Error(`Only \'P\', \'C\' values are allowed!`);
+        if (!(newVal === "P" || newVal === "C" || newVal === "A"))
+          throw new Error(`Only \'P\', \'C\', \'A\' values are allowed!`);
       }
     },
     set(val) {
