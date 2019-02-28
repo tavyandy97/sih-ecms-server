@@ -3,7 +3,7 @@ sequelize = db.sequelize;
 Sequelize = db.Sequelize;
 
 const Category = sequelize.define("category", {
-  categoryid: {
+  id: {
     type: Sequelize.BIGINT,
     primaryKey: true,
     autoIncrement: true

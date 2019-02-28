@@ -29,7 +29,7 @@ router.get("/grievances/:status", (req, res) => {
   isClosed = isClosed === "false" ? 0 : 1;
   var dateSortFactor = isClosed === "false" ? "createdAt" : "updatedAt";
   Grievance.findAll({
-    where: { userid: req.user.id, isClosed },
+    where: { userId: req.user.id, isClosed },
     order: [[dateSortFactor, "DESC"]]
   })
     .then(grievances => {
@@ -57,8 +57,8 @@ router.post("/grievance", (req, res) => {
         time2: timeMLFetch.time2,
         time3: timeMLFetch.time3,
         timeOF: timeMLFetch.timeOF,
-        subcategoryid: req.body.subcategoryid,
-        userid: req.user.id
+        subcategoryId: req.body.subcategoryid,
+        userId: req.user.id
       });
     })
     .then(grievance => {
@@ -76,12 +76,12 @@ router.get("/grievance/:id", (req, res) => {
   if (_.isInteger(id)) {
     return res.status(404).send();
   }
-  Grievance.findOne({ where: { grievanceid: id, userid: req.user.id } })
+  Grievance.findOne({ where: { id: id, userId: req.user.id } })
     .then(grievance => {
       if (!grievance) {
         return res.status(404).send();
       }
-      res.send({ grievance });
+      res.send(grievance);
     })
     .catch(err => {
       res.status(400).send();
@@ -109,7 +109,7 @@ router.patch("/grievance/:id", (req, res) => {
     body.status = "A";
     body.closedBy = null;
   }
-  Grievance.findOne({ where: { grievanceid: id, userid: req.user.id } })
+  Grievance.findOne({ where: { id: id, userId: req.user.id } })
     .then(grievance => {
       if (!grievance) {
         return res.status(404).send();
@@ -121,10 +121,10 @@ router.patch("/grievance/:id", (req, res) => {
         return res.status(400).send();
       console.log(body);
       Grievance.update(body, {
-        where: { grievanceid: id, userid: req.user.id }
+        where: { id: id, userId: req.user.id }
       })
         .then(grievance => {
-          res.send(grievance);
+          res.send({ grievance });
         })
         .catch(err => {
           res.status(400).send({
@@ -142,8 +142,8 @@ router.post("/grievancelog", (req, res) => {
     .then(() => {
       return GrievanceLog.create({
         log: req.body.log,
-        grievanceid: req.body.grievanceid,
-        userid: req.user.id
+        grievanceId: req.body.grievanceid,
+        userId: req.user.id
       });
     })
     .then(grievanceLog => {
@@ -161,13 +161,13 @@ router.get("/grievancelog/:id", (req, res) => {
   if (_.isInteger(id)) {
     return res.status(404).send();
   }
-  Grievance.findOne({ where: { grievanceid: id, userid: req.user.id } })
+  Grievance.findOne({ where: { id: id, userId: req.user.id } })
     .then(grievance => {
       if (!grievance) {
         return res.status(404).send();
       }
       GrievanceLog.findAll({
-        where: { grievanceid: grievance.grievanceid },
+        where: { grievanceId: grievance.id },
         order: [["createdAt", "DESC"]]
       })
         .then(log => {

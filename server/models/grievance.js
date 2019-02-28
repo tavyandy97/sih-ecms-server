@@ -6,7 +6,7 @@ const SubCategory = require("./subcategory");
 const User = require("./user");
 
 const Grievance = sequelize.define("grievance", {
-  grievanceid: {
+  id: {
     type: Sequelize.BIGINT,
     primaryKey: true,
     autoIncrement: true
@@ -75,21 +75,10 @@ const Grievance = sequelize.define("grievance", {
   timeOF: {
     type: Sequelize.BIGINT,
     allowNull: false
-  },
-  subcategoryid: {
-    type: Sequelize.BIGINT,
-    references: {
-      model: SubCategory,
-      key: "subcategoryid"
-    }
-  },
-  userid: {
-    type: Sequelize.BIGINT,
-    references: {
-      model: User,
-      key: "userid"
-    }
   }
 });
+
+Grievance.belongsTo(SubCategory);
+Grievance.belongsTo(User);
 
 module.exports = Grievance;

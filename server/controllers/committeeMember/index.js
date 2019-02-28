@@ -19,4 +19,6 @@ const verifyRole = (req, res, next) => {
 
 router.use(verifyRole);
 
+// router.get();
+
 module.exports = router;

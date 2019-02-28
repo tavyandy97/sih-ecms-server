@@ -5,7 +5,7 @@ Sequelize = db.Sequelize;
 const Category = require("./category");
 
 const SubCategory = sequelize.define("subcategory", {
-  subcategoryid: {
+  id: {
     type: Sequelize.BIGINT,
     primaryKey: true,
     autoIncrement: true
@@ -13,14 +13,9 @@ const SubCategory = sequelize.define("subcategory", {
   subcategory: {
     type: Sequelize.STRING(50),
     allowNull: false
-  },
-  categoryid: {
-    type: Sequelize.BIGINT,
-    references: {
-      model: Category,
-      key: "categoryid"
-    }
   }
 });
+
+SubCategory.belongsTo(Category);
 
 module.exports = SubCategory;
