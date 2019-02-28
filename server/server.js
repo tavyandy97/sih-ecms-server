@@ -10,7 +10,7 @@ var app = express();
 const port = process.env.PORT;
 app.use(
   cors({
-    exposedHeaders: "Authorization"
+    exposedHeaders: "X-Auth"
   })
 );
 app.use(bodyParser.json());
