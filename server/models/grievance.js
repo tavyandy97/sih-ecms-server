@@ -30,7 +30,7 @@ const Grievance = sequelize.define("grievance", {
       }
     },
     set(val) {
-      this.setDataValue("status", val.toUpperCase());
+      this.setDataValue("closedBy", val.toUpperCase());
     }
   },
   status: {

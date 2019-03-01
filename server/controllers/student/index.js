@@ -119,7 +119,6 @@ router.patch("/grievance/:id", (req, res) => {
         !(grievance.closedBy === "P" || grievance.closedBy === "C")
       )
         return res.status(400).send();
-      console.log(body);
       Grievance.update(body, {
         where: { id: id, userId: req.user.id }
       })
