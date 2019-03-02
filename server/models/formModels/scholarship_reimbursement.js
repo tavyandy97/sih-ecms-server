@@ -1,8 +1,10 @@
-const { db } = require("../db/connect");
+const { db } = require("../../db/connect");
 sequelize = db.sequelize;
 Sequelize = db.Sequelize;
 
-const scholarship_reimbursement = sequelize.define(
+const SubCategory = require("../subcategory");
+
+const Scholarship_reimbursement = sequelize.define(
   "scholarship_reimbursement",
   {
     grievance_description: {
@@ -114,11 +116,23 @@ const scholarship_reimbursement = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false
     },
-    days_response: {
-      type: INTEGER,
+    time1: {
+      type: Sequelize.BIGINT,
+      allowNull: false
+    },
+    time2: {
+      type: Sequelize.BIGINT,
+      allowNull: false
+    },
+    time3: {
+      type: Sequelize.BIGINT,
+      allowNull: false
+    },
+    timeOF: {
+      type: Sequelize.BIGINT,
       allowNull: false
     }
   }
 );
-scholarship_reimbursement.belongsTo(SubCategory);
-module.exports = scholarship_reimbursement;
+Scholarship_reimbursement.belongsTo(SubCategory);
+module.exports = Scholarship_reimbursement;

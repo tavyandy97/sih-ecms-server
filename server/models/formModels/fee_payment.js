@@ -1,8 +1,10 @@
-const { db } = require("../db/connect");
+const { db } = require("../../db/connect");
 sequelize = db.sequelize;
 Sequelize = db.Sequelize;
 
-const fee_payment = sequelize.define("fee_payment", {
+const SubCategory = require("../subcategory");
+
+const Fee_payment = sequelize.define("fee_payment", {
   grievance_description: {
     type: Sequelize.TEXT,
     allowNull: false
@@ -85,10 +87,22 @@ const fee_payment = sequelize.define("fee_payment", {
     type: Sequelize.STRING,
     allowNull: false
   },
-  days_response: {
-    type: INTEGER,
+  time1: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time2: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time3: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  timeOF: {
+    type: Sequelize.BIGINT,
     allowNull: false
   }
 });
-fee_payment.belongsTo(SubCategory);
-module.exports = fee_payment;
+Fee_payment.belongsTo(SubCategory);
+module.exports = Fee_payment;

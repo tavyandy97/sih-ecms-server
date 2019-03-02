@@ -1,8 +1,10 @@
-const { db } = require("../db/connect");
+const { db } = require("../../db/connect");
 sequelize = db.sequelize;
 Sequelize = db.Sequelize;
 
-const wifi = sequelize.define("wifi", {
+const SubCategory = require("../subcategory");
+
+const Wifi = sequelize.define("wifi", {
   grievance_description: {
     type: Sequelize.TEXT,
     allowNull: false
@@ -77,11 +79,22 @@ const wifi = sequelize.define("wifi", {
       }
     }
   },
-
-  days_response: {
-    type: INTEGER,
+  time1: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time2: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time3: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  timeOF: {
+    type: Sequelize.BIGINT,
     allowNull: false
   }
 });
-wifi.belongsTo(SubCategory);
-module.exports = `wifi`;
+Wifi.belongsTo(SubCategory);
+module.exports = Wifi;

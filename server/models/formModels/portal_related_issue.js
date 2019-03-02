@@ -1,8 +1,10 @@
-const { db } = require("../db/connect");
+const { db } = require("../../db/connect");
 sequelize = db.sequelize;
 Sequelize = db.Sequelize;
 
-const portal_related_issue = sequelize.define("portal_related_issue", {
+const SubCategory = require("../subcategory");
+
+const Portal_related_issue = sequelize.define("portal_related_issue", {
   grievence_subject: {
     type: Sequelize.STRING,
     allowNull: false
@@ -52,18 +54,30 @@ const portal_related_issue = sequelize.define("portal_related_issue", {
     // }
   },
   grievance_description: {
-    type: TEXT,
+    type: Sequelize.TEXT,
     allowNUll: false
   },
   attached_documents: {
     type: Sequelize.STRING,
     aloowNull: false
   },
-  days_response: {
-    type: INTEGER,
+  time1: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time2: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time3: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  timeOF: {
+    type: Sequelize.BIGINT,
     allowNull: false
   }
 });
-portal_related_issue.belongsTo(SubCategory);
+Portal_related_issue.belongsTo(SubCategory);
 
-module.exports = portal_related_issue;
+module.exports = Portal_related_issue;

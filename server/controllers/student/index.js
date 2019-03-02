@@ -2,6 +2,8 @@ const User = require("../../models/user");
 const Grievance = require("../../models/grievance");
 const GrievanceLog = require("../../models/grievanceLog");
 
+const formRoutes = require("./formRoutes");
+
 const express = require("express");
 const _ = require("lodash");
 
@@ -20,6 +22,8 @@ const verifyRole = (req, res, next) => {
 };
 
 router.use(verifyRole);
+
+router.use("/form", formRoutes);
 
 router.get("/grievances/:status", (req, res) => {
   var isClosed = req.params.status;

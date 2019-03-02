@@ -1,8 +1,10 @@
-const { db } = require("../db/connect");
+const { db } = require("../../db/connect");
 sequelize = db.sequelize;
 Sequelize = db.Sequelize;
 
-const Sports_material = sequelize.define("Sports_material", {
+const SubCategory = require("../subcategory");
+
+const Sports_material = sequelize.define("sports_material", {
   grievance_description: {
     type: Sequelize.TEXT,
     allowNull: false
@@ -61,11 +63,22 @@ const Sports_material = sequelize.define("Sports_material", {
       }
     }
   },
-
-  days_response: {
-    type: INTEGER,
+  time1: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time2: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time3: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  timeOF: {
+    type: Sequelize.BIGINT,
     allowNull: false
   }
 });
 Sports_material.belongsTo(SubCategory);
-module.exports = `Sports_material`;
+module.exports = Sports_material;

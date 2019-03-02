@@ -1,8 +1,10 @@
-const { db } = require("../db/connect");
+const { db } = require("../../db/connect");
 sequelize = db.sequelize;
 Sequelize = db.Sequelize;
 
-const watersupply = sequelize.define("watersupply", {
+const SubCategory = require("../subcategory");
+
+const Watersupply = sequelize.define("watersupply", {
   grievance_description: {
     type: Sequelize.TEXT,
     allowNull: false
@@ -70,11 +72,22 @@ const watersupply = sequelize.define("watersupply", {
       }
     }
   },
-
-  days_response: {
-    type: INTEGER,
+  time1: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time2: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time3: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  timeOF: {
+    type: Sequelize.BIGINT,
     allowNull: false
   }
 });
-watersupply.belongsTo(SubCategory);
-module.exports = watersupply;
+Watersupply.belongsTo(SubCategory);
+module.exports = Watersupply;

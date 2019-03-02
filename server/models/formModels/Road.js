@@ -1,8 +1,10 @@
-const { db } = require("../db/connect");
+const { db } = require("../../db/connect");
 sequelize = db.sequelize;
 Sequelize = db.Sequelize;
 
-const Road = sequelize.define("Road", {
+const SubCategory = require("../subcategory");
+
+const Road = sequelize.define("road", {
   grievance_description: {
     type: Sequelize.TEXT,
     allowNull: false
@@ -59,11 +61,22 @@ const Road = sequelize.define("Road", {
       }
     }
   },
-
-  days_response: {
-    type: INTEGER,
+  time1: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time2: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time3: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  timeOF: {
+    type: Sequelize.BIGINT,
     allowNull: false
   }
 });
 Road.belongsTo(SubCategory);
-module.exports = `Road`;
+module.exports = Road;

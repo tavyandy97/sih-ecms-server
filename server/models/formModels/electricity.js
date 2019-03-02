@@ -1,8 +1,10 @@
-const { db } = require("../db/connect");
+const { db } = require("../../db/connect");
 sequelize = db.sequelize;
 Sequelize = db.Sequelize;
 
-const electricity = sequelize.define("electricity", {
+const SubCategory = require("../subcategory");
+
+const Electricity = sequelize.define("electricity", {
   grievance_description: {
     type: Sequelize.TEXT,
     allowNull: false
@@ -23,7 +25,7 @@ const electricity = sequelize.define("electricity", {
       }
     },
     set(val) {
-      this.setDataValue("electricity", val.toUpperCase());
+      this.setDataValue("issue", val.toUpperCase());
     }
   },
 
@@ -62,10 +64,23 @@ const electricity = sequelize.define("electricity", {
     }
   },
 
-  days_response: {
-    type: INTEGER,
+  time1: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time2: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time3: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  timeOF: {
+    type: Sequelize.BIGINT,
     allowNull: false
   }
 });
-electricity.belongsTo(SubCategory);
-module.exports = electricity;
+
+Electricity.belongsTo(SubCategory);
+module.exports = Electricity;

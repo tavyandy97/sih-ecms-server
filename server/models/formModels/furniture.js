@@ -1,8 +1,10 @@
-const { db } = require("../db/connect");
+const { db } = require("../../db/connect");
 sequelize = db.sequelize;
 Sequelize = db.Sequelize;
 
-const furniture = sequelize.define("furniture", {
+const SubCategory = require("../subcategory");
+
+const Furniture = sequelize.define("furniture", {
   grievance_description: {
     type: Sequelize.TEXT,
     allowNull: false
@@ -67,11 +69,22 @@ const furniture = sequelize.define("furniture", {
       }
     }
   },
-
-  days_response: {
-    type: INTEGER,
+  time1: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time2: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time3: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  timeOF: {
+    type: Sequelize.BIGINT,
     allowNull: false
   }
 });
-furniture.belongsTo(SubCategory);
-module.exports = furniture;
+Furniture.belongsTo(SubCategory);
+module.exports = Furniture;

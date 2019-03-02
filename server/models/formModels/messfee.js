@@ -1,8 +1,10 @@
-const { db } = require("../db/connect");
+const { db } = require("../../db/connect");
 sequelize = db.sequelize;
 Sequelize = db.Sequelize;
 
-const messfee = sequelize.define("messfee", {
+const SubCategory = require("../subcategory");
+
+const Messfee = sequelize.define("messfee", {
   grievance_description: {
     type: Sequelize.TEXT,
     allowNull: false
@@ -97,10 +99,22 @@ const messfee = sequelize.define("messfee", {
     type: Sequelize.STRING,
     allowNull: false
   },
-  days_response: {
-    type: INTEGER,
+  time1: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time2: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  time3: {
+    type: Sequelize.BIGINT,
+    allowNull: false
+  },
+  timeOF: {
+    type: Sequelize.BIGINT,
     allowNull: false
   }
 });
-messfee.belongsTo(SubCategory);
-module.exports = messfee;
+Messfee.belongsTo(SubCategory);
+module.exports = Messfee;
