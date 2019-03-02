@@ -1,6 +1,7 @@
 const User = require("../../models/user");
 const Grievance = require("../../models/grievance");
 const SubCategory = require("../../models/subcategory");
+const GrievanceLog = require("../../models/grievanceLog");
 
 const express = require("express");
 const _ = require("lodash");
@@ -20,6 +21,23 @@ const verifyRole = (req, res, next) => {
 };
 
 router.use(verifyRole);
+
+router.get("/grievance/:id", (req, res) => {
+  var id = req.params.id;
+  if (_.isInteger(id)) {
+    return res.status(404).send();
+  }
+  Grievance.findOne({ where: { id, status: "C" } })
+    .then(grievance => {
+      if (!grievance) {
+        return res.status(404).send();
+      }
+      res.send(grievance);
+    })
+    .catch(err => {
+      res.status(400).send();
+    });
+}); //GET retrieve grievance for committeemembers '/committeemember/grievance/:id'
 
 router.get("/grievances/:status", (req, res) => {
   var isClosed = req.params.status;
@@ -66,7 +84,7 @@ router.get("/grievances/:status", (req, res) => {
         errorMessage: err
       });
     });
-}); //GET retrieve grievance for committeemembers '/committeemembers/grievances/:status'
+}); //GET retrieve grievances for committeemembers according to status '/committeemember/grievances/:status'
 
 router.patch("/grievance/close/:id", (req, res) => {
   var id = req.params.id;
@@ -77,8 +95,6 @@ router.patch("/grievance/close/:id", (req, res) => {
   }
   var body = {};
   if (!(_.isBoolean(req.body.isClosed) || req.body.isClosed === true)) {
-    res.send(id);
-    console.log(_.isBoolean(req.body.isClosed));
     res.status(400).send();
   }
   if (req.body.isClosed) {
@@ -87,7 +103,8 @@ router.patch("/grievance/close/:id", (req, res) => {
   }
   Grievance.findOne({
     where: {
-      id
+      id,
+      status: "C"
     },
     include: [
       {
@@ -125,7 +142,7 @@ router.patch("/grievance/close/:id", (req, res) => {
     .catch(err => {
       res.status(400).send({ errorMessage: err });
     });
-}); //PATCH close grievance for committeemembers '/committeemembers/grievance/close/:status'
+}); //PATCH close grievance for committeemembers '/committeemember/grievance/close/:status'
 
 router.patch("/grievance/escalate/:id", (req, res) => {
   var id = req.params.id;
@@ -145,7 +162,7 @@ router.patch("/grievance/escalate/:id", (req, res) => {
   body.status = req.body.status;
   Grievance.findByPk(id)
     .then(grievance => {
-      if (grievance.isClosed === 1 && grievance.status !== "C") {
+      if (grievance.isClosed === 1 || grievance.status !== "C") {
         res.status(400).send();
       } else {
         if (body.status === "P") body.timeTillEscalation = grievance.time2;
@@ -169,6 +186,51 @@ router.patch("/grievance/escalate/:id", (req, res) => {
         errorMessage: err
       });
     });
-}); //PATCH escalate grievance for committeemembers '/committeemembers/grievance/close/:status'
+}); //PATCH escalate grievance for committeemembers '/committeemember/grievance/close/:status'
+
+router.post("/grievancelog", (req, res) => {
+  GrievanceLog.sync()
+    .then(() => {
+      return GrievanceLog.create({
+        log: req.body.log,
+        grievanceId: req.body.grievanceid,
+        userId: req.user.id
+      });
+    })
+    .then(grievanceLog => {
+      res.send(grievanceLog);
+    })
+    .catch(err => {
+      res.status(400).send({
+        errorMessage: err
+      });
+    });
+}); //POST create grievance log for committeemembers '/committeemember/grievancelog'
+
+router.get("/grievancelog/:id", (req, res) => {
+  var id = req.params.id;
+  if (_.isInteger(id)) {
+    return res.status(404).send();
+  }
+  Grievance.findOne({ where: { id, status: "C" } })
+    .then(grievance => {
+      if (!grievance) {
+        return res.status(404).send();
+      }
+      GrievanceLog.findAll({
+        where: { grievanceId: grievance.id },
+        order: [["createdAt", "DESC"]]
+      })
+        .then(log => {
+          res.send(log);
+        })
+        .catch(err => {
+          res.status(400).send(err);
+        });
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
+}); //GET retrieve grievance log for committeemembers '/committeemember/grievancelog/:id'
 
 module.exports = router;

@@ -153,7 +153,7 @@ router.post("/grievancelog", (req, res) => {
         errorMessage: err
       });
     });
-}); //POST create grievance for students '/student/grievance'
+}); //POST create grievance log for students '/student/grievance'
 
 router.get("/grievancelog/:id", (req, res) => {
   var id = req.params.id;
