@@ -101,7 +101,7 @@ router.post("/electricity", (req, res) => {
     })
     .catch(err => {
       res.status(400).send({
-        errorMessage: err
+        errorMessage: err.response
       });
     });
 });
