@@ -17,6 +17,17 @@ const axios = require("axios");
 require("dotenv").config();
 const router = express.Router();
 
+router.post("/test", (req, res) => {
+  axios
+    .get("https://some-random-api.ml/meme")
+    .then(response => {
+      res.send(response.data);
+    })
+    .catch(err => {
+      res.send(err);
+    });
+});
+
 router.post("/electricity", (req, res) => {
   var body = _.pick(req.body, [
     "grievance_description",

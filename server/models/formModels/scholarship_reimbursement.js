@@ -116,6 +116,10 @@ const Scholarship_reimbursement = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false
     },
+    year: {
+      type: Sequelize.BIGINT,
+      allowNull: false
+    },
     time1: {
       type: Sequelize.BIGINT,
       allowNull: false
