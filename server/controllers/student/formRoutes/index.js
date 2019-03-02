@@ -78,19 +78,19 @@ router.post("/electricity", (req, res) => {
             })
             .catch(err => {
               res.status(400).send({
-                errorMessage: err
+                errorMessage: "Error in elec"
               });
             });
         })
         .catch(err => {
           res.status(400).send({
-            errorMessage: err
+            errorMessage: "Error in griev"
           });
         });
     })
     .catch(err => {
       res.status(400).send({
-        errorMessage: err
+        errorMessage: "Error in axios"
       });
     });
 });
