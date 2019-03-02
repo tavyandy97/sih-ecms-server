@@ -58,10 +58,10 @@ router.post("/electricity", (req, res) => {
         .then(grievance => {
           Electricity.sync()
             .then(() => {
-              console.log(body.issue);
               Electricity.create({
                 grievance_description: body.grievance_description,
                 grievence_subject: body.grievence_subject,
+                partsneeded: body.partsneeded,
                 issue: body.issue,
                 quantity: body.quantity,
                 availability: body.availability,
@@ -93,6 +93,28 @@ router.post("/electricity", (req, res) => {
         errorMessage: err
       });
     });
+});
+
+router.post("/furniture", (req, res) => {
+  var body = _.pick(req.body, [
+    "grievance_description",
+    "grievence_subject",
+    "partsneeded",
+    "quantity",
+    "availability",
+    "time",
+    "externalexpert"
+  ]);
+  axios.post(
+    `${process.env.ML_HOST}/furniture/`,
+    {
+      Parts: body.partsneeded,
+      Quantity: body.quantity,
+      Availability: body.availability,
+      Need: body.externalexpert
+    },
+    { headers: { "Ocp-Apim-Subscription-Key": process.env.ML_API } }
+  );
 });
 
 module.exports = router;
