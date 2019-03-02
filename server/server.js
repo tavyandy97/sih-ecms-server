@@ -10,7 +10,7 @@ var app = express();
 const port = process.env.PORT;
 app.use(
   cors({
-    exposedHeaders: "X-Auth"
+    exposedHeaders: ["X-Auth", "Ocp-Apim-Subscription-Key"]
   })
 );
 app.use(bodyParser.json());
