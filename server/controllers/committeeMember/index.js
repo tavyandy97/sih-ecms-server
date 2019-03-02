@@ -1,6 +1,7 @@
 const User = require("../../models/user");
 const Grievance = require("../../models/grievance");
 const SubCategory = require("../../models/subcategory");
+const GrievanceLog = require("../../models/grievanceLog");
 
 const express = require("express");
 const _ = require("lodash");
@@ -170,5 +171,51 @@ router.patch("/grievance/escalate/:id", (req, res) => {
       });
     });
 }); //PATCH escalate grievance for committeemembers '/committeemembers/grievance/close/:status'
+
+router.post("/grievancelog", (req, res) => {
+  User;
+  GrievanceLog.sync()
+    .then(() => {
+      return GrievanceLog.create({
+        log: req.body.log,
+        grievanceId: req.body.grievanceid,
+        userId: req.user.id
+      });
+    })
+    .then(grievanceLog => {
+      res.send(grievanceLog);
+    })
+    .catch(err => {
+      res.status(400).send({
+        errorMessage: err
+      });
+    });
+}); //POST create grievance log for committeemembers '/student/grievance'
+
+router.get("/grievancelog/:id", (req, res) => {
+  var id = req.params.id;
+  if (_.isInteger(id)) {
+    return res.status(404).send();
+  }
+  Grievance.findOne({ where: { id, status: "C" } })
+    .then(grievance => {
+      if (!grievance) {
+        return res.status(404).send();
+      }
+      GrievanceLog.findAll({
+        where: { grievanceId: grievance.id },
+        order: [["createdAt", "DESC"]]
+      })
+        .then(log => {
+          res.send(log);
+        })
+        .catch(err => {
+          res.status(400).send(err);
+        });
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
+}); //GET retrieve grievance log for committeemembers '/student/grievancelog/:id'
 
 module.exports = router;
