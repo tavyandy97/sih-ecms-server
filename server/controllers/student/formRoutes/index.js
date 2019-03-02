@@ -48,7 +48,12 @@ router.post("/electricity", (req, res) => {
         Availability: body.availability,
         Need: body.externalexpert
       },
-      { headers: { "Ocp-Apim-Subscription-Key": process.env.ML_API } }
+      {
+        headers: {
+          "Ocp-Apim-Subscription-Key": process.env.ML_API,
+          "Content-Type": "application/json"
+        }
+      }
     )
     .then(response => {
       const data = response.data;
