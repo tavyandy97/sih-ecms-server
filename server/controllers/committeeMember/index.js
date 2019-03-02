@@ -22,6 +22,23 @@ const verifyRole = (req, res, next) => {
 
 router.use(verifyRole);
 
+router.get("/grievance/:id", (req, res) => {
+  var id = req.params.id;
+  if (_.isInteger(id)) {
+    return res.status(404).send();
+  }
+  Grievance.findOne({ where: { id, status: "C" } })
+    .then(grievance => {
+      if (!grievance) {
+        return res.status(404).send();
+      }
+      res.send(grievance);
+    })
+    .catch(err => {
+      res.status(400).send();
+    });
+}); //GET retrieve grievance for committeemembers '/student/grievance/:id'
+
 router.get("/grievances/:status", (req, res) => {
   var isClosed = req.params.status;
   if (!(isClosed === "false" || isClosed === "true")) {
