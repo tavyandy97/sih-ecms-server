@@ -51,6 +51,10 @@ const Sports_material = sequelize.define("sports_material", {
       }
     }
   },
+  material: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
   manpowerrequired: {
     type: Sequelize.STRING,
     allowNull: false,

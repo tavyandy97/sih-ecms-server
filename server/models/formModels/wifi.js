@@ -62,11 +62,6 @@ const Wifi = sequelize.define("wifi", {
       }
     }
   },
-  time: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-
   needforreplacement: {
     type: Sequelize.STRING,
     allowNull: false,

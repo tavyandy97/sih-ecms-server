@@ -72,6 +72,7 @@ const Scholarship_reimbursement = sequelize.define(
       max: 10,
       allowNull: false
     },
+
     scholarship_category: {
       type: Sequelize.INTEGER,
       min: 1,

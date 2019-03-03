@@ -8,7 +8,7 @@ router.post("/users/login", (req, res) => {
   User.findByCredentials(body.id, body.password)
     .then(user => {
       return user.generateAuthToken().then(token => {
-        res.header("x-auth", token).send({ id: body.id });
+        res.header("x-auth", token).send({ id: body.id, role: user.role });
       });
     })
     .catch(err => {

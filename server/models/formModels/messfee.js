@@ -31,7 +31,7 @@ const Messfee = sequelize.define("messfee", {
     }
   },
   account_number: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.BIGINT(12),
     min: 900000000000,
     max: 999999999999,
     allowNull: false
@@ -66,7 +66,7 @@ const Messfee = sequelize.define("messfee", {
     }
   },
   transaction_number: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.BIGINT(10),
     min: 1000000000,
     max: 1999999999,
     allowNull: false
@@ -74,7 +74,8 @@ const Messfee = sequelize.define("messfee", {
 
   transactionmode: {
     type: Sequelize.STRING,
-    allowNull: false,
+    // allowNull: false,
+    require: true,
     validate: {
       ismode(value) {
         newVal = value.toUpperCase();

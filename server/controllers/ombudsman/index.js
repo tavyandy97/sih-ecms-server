@@ -66,4 +66,40 @@ router.get("/grievancelog/:id", (req, res) => {
     });
 }); //GET retrieve grievance log for ombudsman '/ombudsman/grievancelog/:id'
 
+router.patch("/grievance/escalate/:id", (req, res) => {
+  var id = req.params.id;
+  if (_.isInteger(id)) {
+    return res.status(404).send({
+      errorMessage: "id should be an integer"
+    });
+  }
+  if (!(_.isString(req.body.status) && req.body.status === "A")) res.send(400);
+  var body = {};
+  body.status = req.body.status;
+  Grievance.findByPk(id)
+    .then(grievance => {
+      if (grievance.isClosed === true || grievance.status !== "O") {
+        return res.status(400).send();
+      } else {
+        if (body.status === "O") body.timeTillEscalation = 0;
+        Grievance.update(body, {
+          where: { id }
+        })
+          .then(grievance => {
+            res.send(body);
+          })
+          .catch(err => {
+            res.status(400).send({
+              errorMessage: err
+            });
+          });
+      }
+    })
+    .catch(err => {
+      res.status(400).send({
+        errorMessage: err
+      });
+    });
+}); //PATCH escalate ombudsman for principal '/ombudsman/grievance/close/:status'
+
 module.exports = router;

@@ -31,9 +31,7 @@ const Fee_payment = sequelize.define("fee_payment", {
     }
   },
   account_number: {
-    type: Sequelize.INTEGER,
-    min: 900000000000,
-    max: 999999999999,
+    type: Sequelize.BIGINT(12),
     allowNull: false
   },
 
@@ -51,7 +49,7 @@ const Fee_payment = sequelize.define("fee_payment", {
     }
   },
   transaction_number: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.BIGINT,
     min: 1000000000,
     max: 1999999999,
     allowNull: false
