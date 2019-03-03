@@ -113,11 +113,12 @@ router.patch("/grievance/:id", (req, res) => {
     body.status = "A";
     body.closedBy = null;
   }
-  Grievance.findOne({ where: { id: id, userId: req.user.id } })
+  Grievance.findOne({ where: { id, userId: req.user.id } })
     .then(grievance => {
       if (!grievance) {
         return res.status(404).send();
       }
+      console.log(grievance);
       if (
         body.status === "A" &&
         !(grievance.closedBy === "P" || grievance.closedBy === "C")

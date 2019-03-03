@@ -28,9 +28,6 @@ const Grievance = sequelize.define("grievance", {
         if (!(newVal === "P" || newVal === "C" || newVal === "A"))
           throw new Error(`Only \'P\', \'C\', \'A\' values are allowed!`);
       }
-    },
-    set(val) {
-      this.setDataValue("closedBy", val.toUpperCase());
     }
   },
   status: {
