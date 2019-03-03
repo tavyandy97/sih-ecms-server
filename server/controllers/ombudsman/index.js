@@ -21,6 +21,25 @@ const verifyRole = (req, res, next) => {
 
 router.use(verifyRole);
 
+router.get("/grievances/:status", (req, res) => {
+  var isClosed = req.params.status;
+  if (!(isClosed === "false")) {
+    return res.status(404).send();
+  }
+  var dateSortFactor = isClosed === "false" ? "createdAt" : "updatedAt";
+  Grievance.findAll({
+    where: { isClosed: 0, status: "O" }
+  })
+    .then(grievances => {
+      res.send(grievances);
+    })
+    .catch(err => {
+      res.status(400).send({
+        errorMessage: err
+      });
+    });
+}); //GET retrieve grievances for ombudsman according to status '/ombudsman/grievances/:status'
+
 router.post("/grievancelog", (req, res) => {
   GrievanceLog.sync()
     .then(() => {
