@@ -188,4 +188,30 @@ router.get("/grievancelog/:id", (req, res) => {
     });
 }); //GET retrieve grievance log for principal '/principal/grievancelog/:id'
 
+router.post("/user", (req, res) => {
+  const body = _.pick(req.body, ["id", "name", "dob", "email", "phone", "sex"]);
+  User.sync()
+    .then(() => {
+      return User.create({
+        id: req.body.id,
+        name: req.body.name,
+        password: "qpalzmqp",
+        dob: req.body.dob,
+        email: req.body.email,
+        isStudent: true,
+        phone: req.body.phone,
+        sex: req.body.sex,
+        role: "S"
+      });
+    })
+    .then(user => {
+      res.send(user);
+    })
+    .catch(err => {
+      res.status(400).send({
+        errorMessage: err
+      });
+    });
+}); //POST create student for principal '/principal/user'
+
 module.exports = router;
